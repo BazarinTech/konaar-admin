@@ -106,10 +106,13 @@ export default async function UsersPage({
         description={`${count(users.total)} accounts. What each one has paid, and what serving them cost.`}
       />
 
-      <form action="/users" className="mb-4 flex flex-wrap items-center gap-2">
+      <form
+        action="/users"
+        className="mb-4 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center"
+      >
         <input type="hidden" name="status" value={status} />
         <input type="hidden" name="sort" value={sort} />
-        <div className="relative max-w-xs flex-1">
+        <div className="relative w-full sm:max-w-xs sm:flex-1">
           <SearchIcon className="text-muted-foreground absolute top-1/2 left-2.5 size-4 -translate-y-1/2" />
           <Input
             name="query"
@@ -118,10 +121,11 @@ export default async function UsersPage({
             className="pl-8"
           />
         </div>
-        <Button type="submit" variant="secondary" size="sm">
+        <Button type="submit" variant="secondary" size="sm" className="self-start">
           Search
         </Button>
-        <div className="ml-auto flex flex-wrap items-center gap-1">
+        {/* -mx-1 px-1 so the first and last pill are not clipped while scrolling. */}
+        <div className="-mx-1 flex items-center gap-1 overflow-x-auto px-1 pb-1 sm:ml-auto sm:overflow-visible sm:pb-0">
           {STATUSES.map((option) => (
             <Button
               key={option.value}
@@ -137,8 +141,8 @@ export default async function UsersPage({
         </div>
       </form>
 
-      <div className="mb-3 flex flex-wrap items-center gap-1">
-        <span className="text-muted-foreground mr-1 text-xs">Sort</span>
+      <div className="-mx-1 mb-3 flex items-center gap-1 overflow-x-auto px-1 pb-1 sm:flex-wrap sm:overflow-visible">
+        <span className="text-muted-foreground mr-1 shrink-0 text-xs">Sort</span>
         {SORTS.map((option) => (
           <Button
             key={option.value}
@@ -164,11 +168,11 @@ export default async function UsersPage({
                   <TableHead>Account</TableHead>
                   <TableHead>Plan</TableHead>
                   <TableHead className="text-right">Paid</TableHead>
-                  <TableHead className="text-right">Cost</TableHead>
-                  <TableHead className="text-right">Credits left</TableHead>
-                  <TableHead className="text-right">Builds</TableHead>
-                  <TableHead>Last seen</TableHead>
-                  <TableHead>Joined</TableHead>
+                  <TableHead className="hidden text-right md:table-cell">Cost</TableHead>
+                  <TableHead className="hidden text-right lg:table-cell">Credits left</TableHead>
+                  <TableHead className="hidden text-right sm:table-cell">Builds</TableHead>
+                  <TableHead className="hidden md:table-cell">Last seen</TableHead>
+                  <TableHead className="hidden lg:table-cell">Joined</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -208,19 +212,19 @@ export default async function UsersPage({
                     <TableCell className="tabular text-right">
                       {money(user.paid)}
                     </TableCell>
-                    <TableCell className="tabular text-muted-foreground text-right">
+                    <TableCell className="tabular text-muted-foreground hidden text-right md:table-cell">
                       {money(user.modelSpend)}
                     </TableCell>
-                    <TableCell className="tabular text-right">
+                    <TableCell className="tabular hidden text-right lg:table-cell">
                       {count(user.creditBalance)}
                     </TableCell>
-                    <TableCell className="tabular text-right">
+                    <TableCell className="tabular hidden text-right sm:table-cell">
                       {count(user.builds)}
                     </TableCell>
-                    <TableCell className="text-muted-foreground text-xs">
+                    <TableCell className="text-muted-foreground hidden text-xs md:table-cell">
                       {ago(user.lastLoginAt)}
                     </TableCell>
-                    <TableCell className="text-muted-foreground text-xs">
+                    <TableCell className="text-muted-foreground hidden text-xs lg:table-cell">
                       {date(user.createdAt)}
                     </TableCell>
                   </TableRow>

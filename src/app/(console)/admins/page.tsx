@@ -64,9 +64,9 @@ export default async function AdminsPage() {
               <TableRow>
                 <TableHead>Administrator</TableHead>
                 <TableHead>Areas</TableHead>
-                <TableHead>Last signed in</TableHead>
-                <TableHead className="text-right">Changes made</TableHead>
-                <TableHead>Added</TableHead>
+                <TableHead className="hidden sm:table-cell">Last signed in</TableHead>
+                <TableHead className="hidden text-right lg:table-cell">Changes made</TableHead>
+                <TableHead className="hidden lg:table-cell">Added</TableHead>
                 <TableHead />
               </TableRow>
             </TableHeader>
@@ -104,13 +104,13 @@ export default async function AdminsPage() {
                       )}
                     </div>
                   </TableCell>
-                  <TableCell className="text-muted-foreground text-xs">
+                  <TableCell className="text-muted-foreground hidden text-xs sm:table-cell">
                     {ago(admin.lastLoginAt)}
                   </TableCell>
-                  <TableCell className="tabular text-right">
+                  <TableCell className="tabular hidden text-right lg:table-cell">
                     {count(admin.actions)}
                   </TableCell>
-                  <TableCell className="text-muted-foreground text-xs">
+                  <TableCell className="text-muted-foreground hidden text-xs lg:table-cell">
                     {date(admin.createdAt)}
                     {admin.createdBy ? ` by ${admin.createdBy}` : ''}
                   </TableCell>

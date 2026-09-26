@@ -23,6 +23,23 @@ const axis = {
   axisLine: false,
 };
 
+/**
+ * A chart's height, small screen first.
+ *
+ * `ResponsiveContainer` fills its parent, so the breakpoint lives on a wrapping
+ * div in CSS. Measuring the viewport in JavaScript would make every chart wait
+ * for a client render before it drew anything.
+ */
+function ChartFrame({
+  className,
+  children,
+}: {
+  className: string;
+  children: React.ReactNode;
+}) {
+  return <div className={className}>{children}</div>;
+}
+
 const tooltipStyle = {
   contentStyle: {
     background: 'var(--popover)',
@@ -70,51 +87,53 @@ export interface GrowthPoint {
  */
 export function GrowthChart({ data }: { data: GrowthPoint[] }) {
   return (
-    <ResponsiveContainer width="100%" height={280}>
-      <AreaChart data={data} margin={{ top: 8, right: 8, left: -16, bottom: 0 }}>
-        <defs>
-          <linearGradient id="total" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="var(--chart-1)" stopOpacity={0.35} />
-            <stop offset="100%" stopColor="var(--chart-1)" stopOpacity={0} />
-          </linearGradient>
-        </defs>
-        <CartesianGrid stroke="var(--border)" vertical={false} />
-        <XAxis dataKey="day" tickFormatter={day} {...axis} />
-        <YAxis yAxisId="left" {...axis} />
-        <YAxis yAxisId="right" orientation="right" {...axis} />
-        <Tooltip {...tooltipStyle} labelFormatter={day} />
-        <Legend
-          wrapperStyle={{ fontSize: 11, color: 'var(--muted-foreground)' }}
-        />
-        <Area
-          yAxisId="left"
-          type="monotone"
-          dataKey="total_users"
-          name="Total users"
-          stroke="var(--chart-1)"
-          strokeWidth={2}
-          fill="url(#total)"
-        />
-        <Line
-          yAxisId="right"
-          type="monotone"
-          dataKey="active_users"
-          name="Active that day"
-          stroke="var(--chart-2)"
-          strokeWidth={2}
-          dot={false}
-        />
-        <Line
-          yAxisId="right"
-          type="monotone"
-          dataKey="new_users"
-          name="New signups"
-          stroke="var(--chart-3)"
-          strokeWidth={2}
-          dot={false}
-        />
-      </AreaChart>
-    </ResponsiveContainer>
+    <ChartFrame className="h-56 w-full sm:h-64 lg:h-72">
+      <ResponsiveContainer width="100%" height="100%">
+        <AreaChart data={data} margin={{ top: 8, right: 8, left: -16, bottom: 0 }}>
+          <defs>
+            <linearGradient id="total" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="var(--chart-1)" stopOpacity={0.35} />
+              <stop offset="100%" stopColor="var(--chart-1)" stopOpacity={0} />
+            </linearGradient>
+          </defs>
+          <CartesianGrid stroke="var(--border)" vertical={false} />
+          <XAxis dataKey="day" tickFormatter={day} {...axis} />
+          <YAxis yAxisId="left" {...axis} />
+          <YAxis yAxisId="right" orientation="right" {...axis} />
+          <Tooltip {...tooltipStyle} labelFormatter={day} />
+          <Legend
+            wrapperStyle={{ fontSize: 11, color: 'var(--muted-foreground)' }}
+          />
+          <Area
+            yAxisId="left"
+            type="monotone"
+            dataKey="total_users"
+            name="Total users"
+            stroke="var(--chart-1)"
+            strokeWidth={2}
+            fill="url(#total)"
+          />
+          <Line
+            yAxisId="right"
+            type="monotone"
+            dataKey="active_users"
+            name="Active that day"
+            stroke="var(--chart-2)"
+            strokeWidth={2}
+            dot={false}
+          />
+          <Line
+            yAxisId="right"
+            type="monotone"
+            dataKey="new_users"
+            name="New signups"
+            stroke="var(--chart-3)"
+            strokeWidth={2}
+            dot={false}
+          />
+        </AreaChart>
+      </ResponsiveContainer>
+    </ChartFrame>
   );
 }
 
@@ -128,63 +147,67 @@ export interface MoneyPoint {
 /** Revenue against what it cost to serve, with the profit line over it. */
 export function RevenueChart({ data }: { data: MoneyPoint[] }) {
   return (
-    <ResponsiveContainer width="100%" height={300}>
-      <BarChart data={data} margin={{ top: 8, right: 8, left: -8, bottom: 0 }}>
-        <CartesianGrid stroke="var(--border)" vertical={false} />
-        <XAxis dataKey="day" tickFormatter={day} {...axis} />
-        <YAxis tickFormatter={moneyShort} {...axis} />
-        <Tooltip
-          {...tooltipStyle}
-          labelFormatter={day}
-          formatter={(value, name) => [
-            moneyShort(typeof value === 'number' ? value : Number(value ?? 0)),
-            name,
-          ]}
-        />
-        <Legend
-          wrapperStyle={{ fontSize: 11, color: 'var(--muted-foreground)' }}
-        />
-        <Bar
-          dataKey="revenue"
-          name="Revenue"
-          fill="var(--chart-2)"
-          radius={[3, 3, 0, 0]}
-        />
-        <Bar
-          dataKey="cost"
-          name="Cost"
-          fill="var(--chart-4)"
-          radius={[3, 3, 0, 0]}
-        />
-        <Line
-          type="monotone"
-          dataKey="profit"
-          name="Profit"
-          stroke="var(--chart-1)"
-          strokeWidth={2}
-          dot={false}
-        />
-      </BarChart>
-    </ResponsiveContainer>
+    <ChartFrame className="h-60 w-full sm:h-72 lg:h-[300px]">
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart data={data} margin={{ top: 8, right: 8, left: -8, bottom: 0 }}>
+          <CartesianGrid stroke="var(--border)" vertical={false} />
+          <XAxis dataKey="day" tickFormatter={day} {...axis} />
+          <YAxis tickFormatter={moneyShort} {...axis} />
+          <Tooltip
+            {...tooltipStyle}
+            labelFormatter={day}
+            formatter={(value, name) => [
+              moneyShort(typeof value === 'number' ? value : Number(value ?? 0)),
+              name,
+            ]}
+          />
+          <Legend
+            wrapperStyle={{ fontSize: 11, color: 'var(--muted-foreground)' }}
+          />
+          <Bar
+            dataKey="revenue"
+            name="Revenue"
+            fill="var(--chart-2)"
+            radius={[3, 3, 0, 0]}
+          />
+          <Bar
+            dataKey="cost"
+            name="Cost"
+            fill="var(--chart-4)"
+            radius={[3, 3, 0, 0]}
+          />
+          <Line
+            type="monotone"
+            dataKey="profit"
+            name="Profit"
+            stroke="var(--chart-1)"
+            strokeWidth={2}
+            dot={false}
+          />
+        </BarChart>
+      </ResponsiveContainer>
+    </ChartFrame>
   );
 }
 
 /** Builds per day — the platform's actual workload. */
 export function BuildsChart({ data }: { data: GrowthPoint[] }) {
   return (
-    <ResponsiveContainer width="100%" height={220}>
-      <BarChart data={data} margin={{ top: 8, right: 8, left: -20, bottom: 0 }}>
-        <CartesianGrid stroke="var(--border)" vertical={false} />
-        <XAxis dataKey="day" tickFormatter={day} {...axis} />
-        <YAxis {...axis} />
-        <Tooltip {...tooltipStyle} labelFormatter={day} />
-        <Bar
-          dataKey="builds"
-          name="Builds"
-          fill="var(--chart-1)"
-          radius={[3, 3, 0, 0]}
-        />
-      </BarChart>
-    </ResponsiveContainer>
+    <ChartFrame className="h-44 w-full sm:h-56">
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart data={data} margin={{ top: 8, right: 8, left: -20, bottom: 0 }}>
+          <CartesianGrid stroke="var(--border)" vertical={false} />
+          <XAxis dataKey="day" tickFormatter={day} {...axis} />
+          <YAxis {...axis} />
+          <Tooltip {...tooltipStyle} labelFormatter={day} />
+          <Bar
+            dataKey="builds"
+            name="Builds"
+            fill="var(--chart-1)"
+            radius={[3, 3, 0, 0]}
+          />
+        </BarChart>
+      </ResponsiveContainer>
+    </ChartFrame>
   );
 }

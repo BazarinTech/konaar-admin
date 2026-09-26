@@ -56,6 +56,7 @@ export default async function LedgerPage({
             asChild
             size="sm"
             variant={window === option ? 'secondary' : 'ghost'}
+            className="shrink-0"
           >
             <Link
               href={{ pathname: '/revenue/ledger', query: { days: option } }}
@@ -75,8 +76,8 @@ export default async function LedgerPage({
               <TableHeader>
                 <TableRow>
                   <TableHead>When</TableHead>
-                  <TableHead>Source</TableHead>
-                  <TableHead>Category</TableHead>
+                  <TableHead className="hidden sm:table-cell">Source</TableHead>
+                  <TableHead className="hidden md:table-cell">Category</TableHead>
                   <TableHead>Description</TableHead>
                   <TableHead className="text-right">Amount</TableHead>
                   <TableHead />
@@ -88,10 +89,10 @@ export default async function LedgerPage({
                     <TableCell className="text-muted-foreground text-xs">
                       {dateTime(line.at)}
                     </TableCell>
-                    <TableCell className="text-xs">
+                    <TableCell className="hidden text-xs sm:table-cell">
                       {SOURCES[line.source] ?? line.source}
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="hidden md:table-cell">
                       <Badge variant="outline">{line.category}</Badge>
                     </TableCell>
                     <TableCell className="max-w-96 truncate text-sm">

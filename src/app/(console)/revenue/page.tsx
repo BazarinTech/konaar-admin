@@ -37,6 +37,7 @@ export default async function RevenuePage({
             asChild
             size="sm"
             variant={window === option ? 'secondary' : 'ghost'}
+            className="shrink-0"
           >
             <Link href={{ pathname: '/revenue', query: { days: option } }}>
               {option === 365 ? '1 year' : `${option} days`}

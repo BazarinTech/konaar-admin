@@ -1,81 +1,24 @@
-'use client';
-
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import {
-  LayoutDashboardIcon,
-  UsersIcon,
-  SlidersHorizontalIcon,
-  ServerIcon,
-  WalletIcon,
-  ShieldIcon,
-  ScrollTextIcon,
-} from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { NavLinks, Wordmark } from '@/components/nav';
 
 /**
- * Navigation, and the area each item needs.
+ * The rail, from `md` up.
  *
- * `null` means every signed-in administrator: the dashboard and the activity
- * log are the two things nobody is shut out of, because the first is why they
- * signed in and the second is how they are held to account.
+ * `sticky top-0` with an explicit `h-svh` rather than a stretched flex child:
+ * a flex item defaults to `align-self: stretch`, which made this element as
+ * tall as the whole document, so the navigation scrolled out of view while the
+ * header stayed put. Pinning it to the viewport and giving the link list its
+ * own overflow keeps both in place, however long the page is.
  */
-const NAV = [
-    { href: '/', label: 'Dashboard', icon: LayoutDashboardIcon, role: null },
-    { href: '/users', label: 'Users', icon: UsersIcon, role: 'users' },
-    {
-      href: '/platform',
-      label: 'Platform',
-      icon: SlidersHorizontalIcon,
-      role: 'platform',
-    },
-    {
-      href: '/resources',
-      label: 'Resources',
-      icon: ServerIcon,
-      role: 'resources',
-    },
-    { href: '/revenue', label: 'Revenue', icon: WalletIcon, role: 'revenue' },
-    { href: '/admins', label: 'Administrators', icon: ShieldIcon, role: 'admins' },
-    { href: '/activity', label: 'Activity', icon: ScrollTextIcon, role: null },
-  ] as const;
-
 export function Sidebar({ roles }: { roles: string[] }) {
-  const pathname = usePathname();
-  const held = new Set(roles);
-
   return (
-    <aside className="bg-card/40 hidden w-56 shrink-0 flex-col border-r md:flex">
-      <div className="flex h-14 items-center gap-2 border-b px-5">
-        <div className="bg-primary text-primary-foreground flex size-6 items-center justify-center rounded text-xs font-bold">
-          K
-        </div>
-        <span className="text-sm font-semibold tracking-tight">Konar</span>
+    <aside className="bg-card/40 sticky top-0 hidden h-svh w-56 shrink-0 flex-col self-start border-r md:flex">
+      <div className="flex h-14 shrink-0 items-center border-b px-5">
+        <Wordmark />
       </div>
-      <nav className="flex flex-1 flex-col gap-0.5 p-2">
-        {NAV.filter((item) => !item.role || held.has(item.role)).map((item) => {
-          const active =
-            item.href === '/'
-              ? pathname === '/'
-              : pathname.startsWith(item.href);
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={cn(
-                'flex items-center gap-2.5 rounded-md px-3 py-2 text-sm transition-colors',
-                active
-                  ? 'bg-accent text-accent-foreground font-medium'
-                  : 'text-muted-foreground hover:bg-accent/50 hover:text-foreground',
-              )}
-            >
-              <item.icon className="size-4" />
-              {item.label}
-            </Link>
-          );
-        })}
-      </nav>
-      <div className="text-muted-foreground border-t px-5 py-3 text-xs">
+      <div className="min-h-0 flex-1 overflow-y-auto p-2">
+        <NavLinks roles={roles} />
+      </div>
+      <div className="text-muted-foreground shrink-0 border-t px-5 py-3 text-xs">
         Every change here is recorded.
       </div>
     </aside>
