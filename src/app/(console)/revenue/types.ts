@@ -37,3 +37,24 @@ export interface TopAccount {
   cost: number;
   contribution: number;
 }
+
+export interface RecurringSchedule {
+  id: string;
+  kind: 'income' | 'expense';
+  category: string;
+  amount: number;
+  description: string;
+  dayOfMonth: number;
+  startsOn: string | null;
+  endsOn: string | null;
+  status: 'active' | 'paused';
+  lastPostedFor: string | null;
+  postedCount: number;
+  createdBy: string | null;
+  nextDue: string | null;
+}
+
+export interface PageInfo {
+  nextCursor: string | null;
+  hasMore: boolean;
+}

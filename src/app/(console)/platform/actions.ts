@@ -51,3 +51,49 @@ export async function updatePlan(
   revalidatePath('/platform');
   return { ok: true, message: `The ${code} plan has been updated.` };
 }
+
+export interface NewPlanInput {
+  code: string;
+  name: string;
+  priceCents: number;
+  cadence: string;
+  monthlyAiCredits: number;
+  monthlyCloudCredits: number;
+  features: string[];
+  isPublic: boolean;
+  maxProjects: number | null;
+  maxServices: number | null;
+  maxWorkspaces: number | null;
+}
+
+export async function createPlan(input: NewPlanInput): Promise<ActionResult> {
+  if (!/^[a-z][a-z0-9-]{1,30}$/.test(input.code)) {
+    return {
+      error:
+        'A plan code is lowercase letters, digits and dashes. It is permanent — workspaces reference it.',
+    };
+  }
+  if (input.name.trim().length < 1) return { error: 'Give the plan a name.' };
+  try {
+    await api('/admin/platform/plans', {
+      method: 'POST',
+      body: JSON.stringify({ ...input, name: input.name.trim() }),
+    });
+  } catch (err) {
+    return failed(err);
+  }
+  revalidatePath('/platform/plans');
+  revalidatePath('/platform');
+  return { ok: true, message: `The ${input.name.trim()} plan is live.` };
+}
+
+export async function deletePlan(code: string): Promise<ActionResult> {
+  try {
+    await api(`/admin/platform/plans/${code}`, { method: 'DELETE' });
+  } catch (err) {
+    return failed(err);
+  }
+  revalidatePath('/platform/plans');
+  revalidatePath('/platform');
+  return { ok: true, message: `The ${code} plan has been removed.` };
+}

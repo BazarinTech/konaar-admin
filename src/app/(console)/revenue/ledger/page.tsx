@@ -1,31 +1,13 @@
 import Link from 'next/link';
 import { ArrowLeftIcon } from 'lucide-react';
 import { apiPage } from '@/lib/api';
-import { dateTime, money } from '@/lib/format';
 import { PageHeader } from '@/components/page-header';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
 import { Empty } from '@/components/empty';
-import { DeleteEntry } from './delete-entry';
-import type { LedgerLine } from '../types';
+import { LedgerTable } from './ledger-table';
+import type { LedgerLine, PageInfo } from '../types';
 
 export const metadata = { title: 'Ledger — Konar Console' };
-
-const SOURCES: Record<string, string> = {
-  invoice: 'Invoice',
-  credit_topup: 'Top-up',
-  generation: 'Model usage',
-  manual: 'Entered',
-};
 
 export default async function LedgerPage({
   searchParams,
@@ -34,8 +16,8 @@ export default async function LedgerPage({
 }) {
   const { days } = await searchParams;
   const window = Math.min(Math.max(Number(days) || 90, 1), 365);
-  const ledger = await apiPage<{ data: LedgerLine[] }>(
-    `/admin/revenue/ledger?days=${window}&limit=500`,
+  const ledger = await apiPage<{ data: LedgerLine[]; pageInfo: PageInfo }>(
+    `/admin/revenue/ledger?days=${window}`,
   );
 
   return (
@@ -70,61 +52,7 @@ export default async function LedgerPage({
       {ledger.data.length === 0 ? (
         <Empty>Nothing moved in this period.</Empty>
       ) : (
-        <Card>
-          <CardContent className="p-0">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>When</TableHead>
-                  <TableHead className="hidden sm:table-cell">Source</TableHead>
-                  <TableHead className="hidden md:table-cell">Category</TableHead>
-                  <TableHead>Description</TableHead>
-                  <TableHead className="text-right">Amount</TableHead>
-                  <TableHead />
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {ledger.data.map((line) => (
-                  <TableRow key={`${line.source}-${line.sourceId}`}>
-                    <TableCell className="text-muted-foreground text-xs">
-                      {dateTime(line.at)}
-                    </TableCell>
-                    <TableCell className="hidden text-xs sm:table-cell">
-                      {SOURCES[line.source] ?? line.source}
-                    </TableCell>
-                    <TableCell className="hidden md:table-cell">
-                      <Badge variant="outline">{line.category}</Badge>
-                    </TableCell>
-                    <TableCell className="max-w-96 truncate text-sm">
-                      {line.description}
-                      {line.recordedBy ? (
-                        <span className="text-muted-foreground text-xs">
-                          {' '}
-                          · {line.recordedBy}
-                        </span>
-                      ) : null}
-                    </TableCell>
-                    <TableCell
-                      className={
-                        line.kind === 'income'
-                          ? 'tabular text-success text-right'
-                          : 'tabular text-right'
-                      }
-                    >
-                      {line.kind === 'income' ? '+' : '−'}
-                      {money(line.amount).replace('$', '$')}
-                    </TableCell>
-                    <TableCell className="text-right">
-                      {line.editable ? (
-                        <DeleteEntry id={line.sourceId} />
-                      ) : null}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
+        <LedgerTable initial={ledger} days={window} />
       )}
     </>
   );

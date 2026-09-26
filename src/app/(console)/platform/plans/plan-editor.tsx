@@ -24,6 +24,11 @@ export function PlanEditor({ plan }: { plan: Plan }) {
   const [ai, setAi] = useState(String(plan.monthlyAiCredits));
   const [cloud, setCloud] = useState(String(plan.monthlyCloudCredits));
   const [features, setFeatures] = useState(plan.features.join('\n'));
+  // An empty field is unlimited, which is why these are strings rather than
+  // numbers: "" and 0 are different answers, and 0 means nobody gets one.
+  const [projects, setProjects] = useState(limitText(plan.maxProjects));
+  const [services, setServices] = useState(limitText(plan.maxServices));
+  const [spaces, setSpaces] = useState(limitText(plan.maxWorkspaces));
   const [isPublic, setIsPublic] = useState(plan.isPublic);
   const [pending, start] = useTransition();
 
@@ -44,6 +49,12 @@ export function PlanEditor({ plan }: { plan: Plan }) {
       .filter(Boolean);
     if (list.join('\n') !== plan.features.join('\n')) next.features = list;
     if (isPublic !== plan.isPublic) next.isPublic = isPublic;
+    if (limitValue(projects) !== plan.maxProjects)
+      next.maxProjects = limitValue(projects);
+    if (limitValue(services) !== plan.maxServices)
+      next.maxServices = limitValue(services);
+    if (limitValue(spaces) !== plan.maxWorkspaces)
+      next.maxWorkspaces = limitValue(spaces);
     return next;
   };
 
@@ -84,6 +95,45 @@ export function PlanEditor({ plan }: { plan: Plan }) {
           />
         </Field>
       </div>
+
+      <div className="grid gap-3 sm:grid-cols-3">
+        <Field label="Projects">
+          <Input
+            type="number"
+            min={0}
+            value={projects}
+            onChange={(e) => setProjects(e.target.value)}
+            placeholder="Unlimited"
+            className="tabular"
+          />
+        </Field>
+        <Field label="Deployed services">
+          <Input
+            type="number"
+            min={0}
+            value={services}
+            onChange={(e) => setServices(e.target.value)}
+            placeholder="Unlimited"
+            className="tabular"
+          />
+        </Field>
+        <Field label="Workspaces">
+          <Input
+            type="number"
+            min={0}
+            value={spaces}
+            onChange={(e) => setSpaces(e.target.value)}
+            placeholder="Unlimited"
+            className="tabular"
+          />
+        </Field>
+      </div>
+      <p className="text-muted-foreground -mt-1 text-xs">
+        Leave a ceiling empty for unlimited. Projects count what the builder and
+        the cloud console both create; workspaces are per owner. Customers
+        already over a new ceiling keep what they have — they just cannot add
+        more.
+      </p>
 
       <Field label="Features, one per line">
         <textarea
@@ -135,4 +185,16 @@ function Field({
       {children}
     </div>
   );
+}
+
+/** An empty field means unlimited, which the API stores as `null`. */
+function limitText(value: number | null): string {
+  return value === null ? '' : String(value);
+}
+
+function limitValue(text: string): number | null {
+  const trimmed = text.trim();
+  if (!trimmed) return null;
+  const parsed = Number(trimmed);
+  return Number.isFinite(parsed) && parsed >= 0 ? Math.trunc(parsed) : null;
 }

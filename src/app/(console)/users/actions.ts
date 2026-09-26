@@ -2,6 +2,7 @@
 
 import { revalidatePath } from 'next/cache';
 import { api, ApiError } from '@/lib/api';
+import type { UserList, UserQuery } from './types';
 
 export interface ActionResult {
   ok?: boolean;
@@ -76,4 +77,28 @@ export async function grantCredits(
     `${input.credits} ${input.kind} credits added.`,
     userId,
   );
+}
+
+/**
+ * The next page of the user list.
+ *
+ * The filters travel with the cursor because the cursor only says "after this
+ * row" — it carries no memory of what was being asked for, and a page fetched
+ * under different filters would splice unrelated rows into the table.
+ */
+export async function loadUsers(
+  query: UserQuery,
+  cursor: string,
+): Promise<UserList | null> {
+  const search = new URLSearchParams({
+    status: query.status,
+    sort: query.sort,
+    cursor,
+  });
+  if (query.query) search.set('query', query.query);
+  try {
+    return await api<UserList>(`/admin/users?${search}`);
+  } catch {
+    return null;
+  }
 }

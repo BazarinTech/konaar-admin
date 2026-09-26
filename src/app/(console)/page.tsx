@@ -39,6 +39,7 @@ interface Activity {
     createdAt: string;
     adminName: string | null;
   }[];
+  pageInfo: { nextCursor: string | null; hasMore: boolean };
 }
 
 export default async function DashboardPage() {

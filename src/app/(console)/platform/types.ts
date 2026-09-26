@@ -24,6 +24,10 @@ export interface Plan {
   features: string[];
   isPublic: boolean;
   sortOrder: number;
+  /** `null` is unlimited. */
+  maxProjects: number | null;
+  maxServices: number | null;
+  maxWorkspaces: number | null;
   workspaces: number;
   subscriptions: number;
 }

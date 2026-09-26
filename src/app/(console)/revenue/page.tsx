@@ -8,7 +8,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { RevenueChart, type MoneyPoint } from '@/components/charts';
 import { EntryForm } from './entry-form';
-import type { RevenueSummary } from './types';
+import { Recurring } from './recurring';
+import type { RecurringSchedule, RevenueSummary } from './types';
 
 export const metadata = { title: 'Revenue — Konar Console' };
 
@@ -20,9 +21,10 @@ export default async function RevenuePage({
   const { days } = await searchParams;
   const window = Math.min(Math.max(Number(days) || 30, 7), 365);
 
-  const [summary, series] = await Promise.all([
+  const [summary, series, recurring] = await Promise.all([
     apiPage<RevenueSummary>(`/admin/revenue?days=${window}`),
     apiPage<{ data: MoneyPoint[] }>(`/admin/revenue/series?days=${window}`),
+    apiPage<{ data: RecurringSchedule[] }>('/admin/revenue/recurring'),
   ]);
 
   return (
@@ -95,14 +97,27 @@ export default async function RevenuePage({
         </CardContent>
       </Card>
 
+      <Card className="mt-4">
+        <CardHeader>
+          <CardTitle>Every month, on its own</CardTitle>
+          <p className="text-muted-foreground text-xs">
+            Amounts that repeat — a server bill, a salary, a retainer. Each one
+            posts itself on its day, so the ledger stays whole without anyone
+            remembering to type it.
+          </p>
+        </CardHeader>
+        <CardContent>
+          <Recurring schedules={recurring.data} />
+        </CardContent>
+      </Card>
+
       <div className="mt-4 grid gap-4 lg:grid-cols-2">
         <Card>
           <CardHeader>
-            <CardTitle>Record something the product cannot see</CardTitle>
+            <CardTitle>Record a one-off</CardTitle>
             <p className="text-muted-foreground text-xs">
-              Infrastructure bills, refunds, payroll, one-off income. Invoices,
-              top-ups and model spend are already counted — entering those again
-              would double them.
+              Something that happened once. Invoices, top-ups and model spend
+              are already counted — entering those again would double them.
             </p>
           </CardHeader>
           <CardContent>
