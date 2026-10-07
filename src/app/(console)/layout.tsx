@@ -37,7 +37,7 @@ export default async function ConsoleLayout({
             <Wordmark />
           </div>
           <div className="text-muted-foreground hidden text-sm md:block">
-            Konar platform administration
+            Konaar platform administration
           </div>
           <div className="ml-auto">
             <AdminMenu admin={admin} />

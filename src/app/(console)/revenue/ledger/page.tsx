@@ -7,7 +7,7 @@ import { Empty } from '@/components/empty';
 import { LedgerTable } from './ledger-table';
 import type { LedgerLine, PageInfo } from '../types';
 
-export const metadata = { title: 'Ledger — Konar Console' };
+export const metadata = { title: 'Ledger — Konaar Console' };
 
 export default async function LedgerPage({
   searchParams,

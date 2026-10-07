@@ -16,7 +16,7 @@ import {
 } from '@/components/ui/table';
 import type { TopAccount } from '../types';
 
-export const metadata = { title: 'Accounts — Konar Console' };
+export const metadata = { title: 'Accounts — Konaar Console' };
 
 export default async function AccountsPage() {
   const accounts = await apiPage<{ data: TopAccount[] }>(

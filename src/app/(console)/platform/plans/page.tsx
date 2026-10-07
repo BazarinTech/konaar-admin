@@ -11,7 +11,7 @@ import { NewPlan } from './new-plan';
 import { DeletePlan } from './delete-plan';
 import type { PlatformOverview } from '../types';
 
-export const metadata = { title: 'Plans — Konar Console' };
+export const metadata = { title: 'Plans — Konaar Console' };
 
 export default async function PlansPage() {
   const overview = await apiPage<PlatformOverview>('/admin/platform');

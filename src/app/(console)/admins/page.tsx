@@ -40,7 +40,7 @@ const AREAS: Record<string, string> = {
   revenue: 'Revenue',
 };
 
-export const metadata = { title: 'Administrators — Konar Console' };
+export const metadata = { title: 'Administrators — Konaar Console' };
 
 export default async function AdminsPage() {
   const [list, me] = await Promise.all([

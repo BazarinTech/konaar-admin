@@ -110,7 +110,7 @@ function ProbeError({ error }: { error: string }) {
   );
 }
 
-export const metadata = { title: 'Resources — Konar Console' };
+export const metadata = { title: 'Resources — Konaar Console' };
 // Numbers this page shows are true for a second or two; never cache them.
 export const dynamic = 'force-dynamic';
 

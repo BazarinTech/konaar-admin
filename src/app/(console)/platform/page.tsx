@@ -17,7 +17,7 @@ import { Button } from '@/components/ui/button';
 import { SettingField } from './setting-field';
 import type { PlatformOverview } from './types';
 
-export const metadata = { title: 'Platform — Konar Console' };
+export const metadata = { title: 'Platform — Konaar Console' };
 
 export default async function PlatformPage() {
   const overview = await apiPage<PlatformOverview>('/admin/platform');

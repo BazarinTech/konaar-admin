@@ -11,7 +11,7 @@ import { EntryForm } from './entry-form';
 import { Recurring } from './recurring';
 import type { RecurringSchedule, RevenueSummary } from './types';
 
-export const metadata = { title: 'Revenue — Konar Console' };
+export const metadata = { title: 'Revenue — Konaar Console' };
 
 export default async function RevenuePage({
   searchParams,

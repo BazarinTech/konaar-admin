@@ -10,8 +10,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'Konar Console',
-  description: 'Platform administration for Konar.',
+  title: 'Konaar Console',
+  description: 'Platform administration for Konaar.',
   robots: { index: false, follow: false },
 };
 

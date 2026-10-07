@@ -3,7 +3,7 @@ import { cookies } from 'next/headers';
 import { TOKEN_COOKIE } from '@/lib/api';
 import { SignInForm } from './sign-in-form';
 
-export const metadata = { title: 'Sign in — Konar Console' };
+export const metadata = { title: 'Sign in — Konaar Console' };
 
 export default async function LoginPage() {
   // Already signed in: the console, not the door.
@@ -17,7 +17,7 @@ export default async function LoginPage() {
             K
           </div>
           <h1 className="text-lg font-semibold tracking-tight">
-            Konar Console
+            Konaar Console
           </h1>
           <p className="text-muted-foreground text-sm">
             Platform administration. Sign in to continue.

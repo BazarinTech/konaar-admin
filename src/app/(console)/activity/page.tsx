@@ -4,7 +4,7 @@ import { Empty } from '@/components/empty';
 import { ActivityFeed } from './activity-feed';
 import type { ActivityPage } from './actions';
 
-export const metadata = { title: 'Activity — Konar Console' };
+export const metadata = { title: 'Activity — Konaar Console' };
 
 export default async function ActivityRoute() {
   const feed = await apiPage<ActivityPage>('/admin/activity');

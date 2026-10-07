@@ -16,7 +16,7 @@ import {
 } from '@/components/ui/table';
 import type { PlatformOverview } from '../types';
 
-export const metadata = { title: 'Models — Konar Console' };
+export const metadata = { title: 'Models — Konaar Console' };
 
 export default async function ModelsPage() {
   const overview = await apiPage<PlatformOverview>('/admin/platform');

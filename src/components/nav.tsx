@@ -94,7 +94,7 @@ export function Wordmark() {
       <span className="bg-primary text-primary-foreground flex size-6 items-center justify-center rounded text-xs font-bold">
         K
       </span>
-      <span className="text-sm font-semibold tracking-tight">Konar</span>
+      <span className="text-sm font-semibold tracking-tight">Konaar</span>
     </span>
   );
 }

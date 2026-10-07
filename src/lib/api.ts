@@ -20,7 +20,7 @@ export class ApiError extends Error {
 }
 
 /**
- * Calls the Konar admin API as the signed-in administrator.
+ * Calls the Konaar admin API as the signed-in administrator.
  *
  * Server-only, and deliberately so: the session token lives in an httpOnly
  * cookie and is attached here, which means it never reaches the browser at all.

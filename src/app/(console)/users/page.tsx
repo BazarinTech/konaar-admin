@@ -24,7 +24,7 @@ const SORTS = [
   { value: 'builds', label: 'Most builds' },
 ] as const;
 
-export const metadata = { title: 'Users — Konar Console' };
+export const metadata = { title: 'Users — Konaar Console' };
 
 export default async function UsersPage({
   searchParams,
