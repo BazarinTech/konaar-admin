@@ -5,6 +5,7 @@ import { ago, count, date, dateTime, money } from '@/lib/format';
 import { PageHeader } from '@/components/page-header';
 import { Stat } from '@/components/stat';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { PublisherToggle } from '../../templates/publisher-toggle';
 import {
   Table,
   TableBody,
@@ -27,6 +28,8 @@ interface UserDetail {
     createdAt: string;
     lastLoginAt: string | null;
     emailVerified: boolean;
+    /** Null when this person may not publish templates. */
+    templatePublisher: { at: string; note: string | null } | null;
     banned: {
       at: string;
       reason: string;
@@ -307,6 +310,23 @@ export default async function UserPage({
               <Row label="Found us via">{user.onboarding.source ?? '—'}</Row>
             </CardContent>
           </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Showcase</CardTitle>
+          </CardHeader>
+          <CardContent className="flex flex-col gap-2 text-sm">
+            <PublisherToggle
+              userId={user.id}
+              verified={Boolean(user.templatePublisher)}
+            />
+            {user.templatePublisher?.note ? (
+              <p className="text-muted-foreground text-xs">
+                {user.templatePublisher.note}
+              </p>
+            ) : null}
+          </CardContent>
+        </Card>
         </div>
       </div>
 

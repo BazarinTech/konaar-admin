@@ -10,6 +10,7 @@ import {
   WalletIcon,
   ShieldIcon,
   ScrollTextIcon,
+  LayoutTemplateIcon,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -41,6 +42,14 @@ export const NAV = [
     label: 'Administrators',
     icon: ShieldIcon,
     role: 'admins',
+  },
+  {
+    href: '/templates',
+    label: 'Templates',
+    icon: LayoutTemplateIcon,
+    // Moderating what customers publish is platform curation, not user
+    // administration — the same area that owns pricing and the rate card.
+    role: 'platform',
   },
   { href: '/activity', label: 'Activity', icon: ScrollTextIcon, role: null },
 ] as const;
