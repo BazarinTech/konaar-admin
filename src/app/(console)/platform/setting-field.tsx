@@ -37,8 +37,10 @@ export function SettingField({ setting }: { setting: Setting }) {
       <div className="flex items-baseline justify-between gap-2">
         <Label htmlFor={setting.key}>{setting.label}</Label>
         <span className="text-muted-foreground text-xs">
-          {setting.unit === '×'
-            ? `${setting.min}× – ${setting.max}×`
+          {/* Suffix the bounds for units that read as a suffix — "0 – 400"
+              says nothing about what 400 is, where "0% – 400%" does. */}
+          {setting.unit === '×' || setting.unit === '%'
+            ? `${setting.min}${setting.unit} – ${setting.max}${setting.unit}`
             : `${setting.min} – ${setting.max}`}
         </span>
       </div>
