@@ -7,16 +7,16 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
-import { ago } from '@/lib/format';
+import { ago, bytes } from '@/lib/format';
 import { reviewTemplate } from './actions';
 import type { TemplateRecord } from './page';
 
 /**
  * One submission, with everything needed to judge it on the card.
  *
- * The prompt is shown in full rather than truncated: it is what a stranger's
- * build will actually run, and it is the thing most likely to be wrong in a
- * way a title and a screenshot hide.
+ * What is being approved is a copy of this project's files, so the card says
+ * how many and how big: approving publishes somebody's code for strangers to
+ * run, and a title and a screenshot hide what is in it.
  */
 export function ReviewCard({ template }: { template: TemplateRecord }) {
   const [pending, start] = React.useTransition();
@@ -63,9 +63,31 @@ export function ReviewCard({ template }: { template: TemplateRecord }) {
 
         <div className="border bg-muted/30 p-3">
           <p className="mb-1 text-xs font-medium text-muted-foreground">
-            What a remix builds
+            What gets copied
           </p>
-          <p className="text-sm whitespace-pre-wrap">{template.prompt}</p>
+          {template.fileCount > 0 ? (
+            <p className="text-sm tabular">
+              {template.fileCount} files · {bytes(template.totalBytes)}
+              {template.liveUrl ? (
+                <>
+                  {' · '}
+                  <a
+                    href={template.liveUrl}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="underline underline-offset-4"
+                  >
+                    the author&rsquo;s live copy
+                  </a>
+                </>
+              ) : null}
+            </p>
+          ) : (
+            <p className="text-sm">
+              No files — this one would be a starter, built from its
+              description rather than copied.
+            </p>
+          )}
         </div>
 
         {rejecting ? (
@@ -80,7 +102,7 @@ export function ReviewCard({ template }: { template: TemplateRecord }) {
               onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) =>
                 setReason(event.target.value)
               }
-              placeholder="The screenshot does not match the project, and the prompt describes a different app."
+              placeholder="The screenshot does not match the project, and the files include an API key."
             />
           </div>
         ) : null}

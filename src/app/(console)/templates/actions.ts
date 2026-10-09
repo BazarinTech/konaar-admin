@@ -65,6 +65,66 @@ export async function takeDownTemplate(
 }
 
 /**
+ * Put a template at the front of the gallery, or take it out of the row.
+ *
+ * A rank rather than a flag: the order of the featured row is a decision
+ * somebody made, and a boolean would leave it to whatever the database
+ * returns first.
+ */
+export async function featureTemplate(
+  id: string,
+  rank: number | null,
+): Promise<ActionResult> {
+  try {
+    await api(`/admin/templates/${id}/featured`, {
+      method: 'POST',
+      body: JSON.stringify({ rank }),
+    });
+  } catch (err) {
+    return failed(err);
+  }
+  revalidatePath('/templates');
+  return {
+    ok: true,
+    message: rank === null ? 'Out of the featured row.' : 'Featured.',
+  };
+}
+
+/**
+ * Hide a comment, with a reason.
+ *
+ * Hidden rather than deleted. A comment sits on our front page under our
+ * name, so the decision is ours to answer for — and the next person looking
+ * at the same thread should be able to see it was already handled.
+ */
+export async function hideComment(
+  commentId: string,
+  reason: string,
+): Promise<ActionResult> {
+  try {
+    await api(`/admin/templates/comments/${commentId}/hide`, {
+      method: 'POST',
+      body: JSON.stringify({ reason }),
+    });
+  } catch (err) {
+    return failed(err);
+  }
+  revalidatePath('/templates');
+  return { ok: true, message: 'Hidden.' };
+}
+
+/** Put one back, when hiding it was the mistake. */
+export async function showComment(commentId: string): Promise<ActionResult> {
+  try {
+    await api(`/admin/templates/comments/${commentId}/show`, { method: 'POST' });
+  } catch (err) {
+    return failed(err);
+  }
+  revalidatePath('/templates');
+  return { ok: true, message: 'Back on the page.' };
+}
+
+/**
  * Let a person publish templates, or stop them.
  *
  * The note is required both ways. "Why is this account verified" gets asked

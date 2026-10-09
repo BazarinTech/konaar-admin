@@ -6,14 +6,39 @@ import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { ago } from '@/lib/format';
-import { takeDownTemplate } from './actions';
+import { featureTemplate, takeDownTemplate } from './actions';
 import type { TemplateRecord } from './page';
 
 /** One live template, and the one action that applies to it. */
-export function PublishedRow({ template }: { template: TemplateRecord }) {
+export function PublishedRow({
+  template,
+  nextRank,
+}: {
+  template: TemplateRecord;
+  /** The first free position in the featured row, worked out by the page. */
+  nextRank: number;
+}) {
   const [pending, start] = React.useTransition();
   const [removing, setRemoving] = React.useState(false);
   const [reason, setReason] = React.useState('');
+
+  /**
+   * Into the featured row, or out of it.
+   *
+   * The position is the next free one rather than something to type: a
+   * reviewer deciding "this is good" should not also have to decide where in
+   * a list of six it goes, and the row can be reordered by unfeaturing.
+   */
+  function feature() {
+    start(async () => {
+      const result = await featureTemplate(
+        template.id,
+        template.featuredRank === null ? nextRank : null,
+      );
+      if (result.error) toast.error(result.error);
+      else toast.success(result.message ?? 'Saved.');
+    });
+  }
 
   function takeDown() {
     start(async () => {
@@ -38,8 +63,29 @@ export function PublishedRow({ template }: { template: TemplateRecord }) {
         </div>
         <div className="flex items-center gap-4">
           <span className="tabular text-xs text-muted-foreground">
-            {template.remixCount} remixes · {template.likeCount} likes
+            {template.fileCount > 0
+              ? `${template.fileCount} files`
+              : 'Starter — no files'}{' '}
+            · {template.remixCount} used · {template.likeCount} likes ·{' '}
+            {template.commentCount} comments
           </span>
+          <Button
+            size="sm"
+            variant={template.featuredRank === null ? 'outline' : 'default'}
+            disabled={pending}
+            onClick={feature}
+            title={
+              template.featuredRank === null
+                ? 'Show this one first in the gallery'
+                : `Featured at position ${template.featuredRank}`
+            }
+          >
+            {pending
+              ? '…'
+              : template.featuredRank === null
+                ? 'Feature'
+                : `Featured #${template.featuredRank}`}
+          </Button>
           <Button
             size="sm"
             variant="outline"
