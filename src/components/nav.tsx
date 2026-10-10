@@ -12,6 +12,7 @@ import {
   ScrollTextIcon,
   LayoutTemplateIcon,
   GiftIcon,
+  ActivityIcon,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -50,6 +51,16 @@ export const NAV = [
     icon: LayoutTemplateIcon,
     // Moderating what customers publish is platform curation, not user
     // administration — the same area that owns pricing and the rate card.
+    role: 'platform',
+  },
+  {
+    // Not `/status`: that path belongs to the public status page this app
+    // also serves, and two routes cannot answer one URL.
+    href: '/platform/status',
+    label: 'Status',
+    icon: ActivityIcon,
+    // What customers are told about outages is platform curation, the same
+    // area that owns pricing and the templates queue.
     role: 'platform',
   },
   {
