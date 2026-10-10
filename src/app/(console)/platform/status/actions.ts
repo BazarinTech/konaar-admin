@@ -18,11 +18,13 @@ function failed(err: unknown): ActionResult {
 /**
  * Every write here changes what customers are told.
  *
- * Both paths are revalidated on purpose: the console shows the operator what
- * they just did, and `/status` is the page everyone else is refreshing.
+ * Only this console's own page is revalidated. The public status page is a
+ * separate deployment and cannot be reached from here — it re-reads the API
+ * on its own short interval, which is also what makes it survive this app
+ * being down.
  */
 function refresh() {
-  revalidatePath('/status');
+  revalidatePath('/platform/status');
 }
 
 export async function createGroup(

@@ -119,34 +119,3 @@
   }
 }
 
-/*
- * The public status page.
- *
- * The console is pinned dark, and this one page is not the console: it is
- * read by customers, often on a phone, often while something is broken.
- * Redeclaring the light palette on a wrapper is how one page opts out of a
- * theme that `<html>` owns — the alternative is a second root layout, which
- * would mean restructuring the whole app for one route.
- */
-.status-page {
-  --background: oklch(0.985 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.52 0 0);
-  --border: oklch(0.91 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-
-  /* The bar and the banner, by what a day or a service is doing. */
-  --up: oklch(0.6 0.15 150);
-  --partial: oklch(0.75 0.16 70);
-  --down: oklch(0.6 0.21 25);
-  --maintenance: oklch(0.65 0.13 240);
-  --unknown: oklch(0.88 0 0);
-
-  background: var(--background);
-  color: var(--foreground);
-  color-scheme: light;
-}

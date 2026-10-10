@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { ExternalLinkIcon } from 'lucide-react';
 
 import { apiPage } from '@/lib/api';
@@ -13,6 +12,9 @@ import { IncidentForm } from './incident-form';
 import { IncidentCard } from './incident-card';
 
 export const metadata = { title: 'Status — Konaar Console' };
+
+/** Where the public page is served from. Its own deployment. */
+const STATUS_URL = process.env.NEXT_PUBLIC_STATUS_URL ?? 'https://status.konaar.dev';
 
 export type ComponentStatus =
   | 'operational'
@@ -74,10 +76,12 @@ export default async function StatusConsolePage() {
         description="What the public status page says. Everything here is a statement customers read — nothing on that page is measured or guessed."
       >
         <Button variant="outline" size="sm" asChild>
-          <Link href="/status" target="_blank" rel="noreferrer">
+          {/* Its own app, on its own host: a status page that shares a
+              deployment with the thing it reports on goes down with it. */}
+          <a href={STATUS_URL} target="_blank" rel="noreferrer">
             View the page
             <ExternalLinkIcon className="size-3.5" />
-          </Link>
+          </a>
         </Button>
       </PageHeader>
 
