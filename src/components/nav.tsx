@@ -11,6 +11,7 @@ import {
   ShieldIcon,
   ScrollTextIcon,
   LayoutTemplateIcon,
+  GiftIcon,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -50,6 +51,14 @@ export const NAV = [
     // Moderating what customers publish is platform curation, not user
     // administration — the same area that owns pricing and the rate card.
     role: 'platform',
+  },
+  {
+    href: '/referrals',
+    label: 'Referrals',
+    icon: GiftIcon,
+    // Approving a payout is sending real money, so it sits with the other
+    // revenue decisions rather than with user administration.
+    role: 'revenue',
   },
   { href: '/activity', label: 'Activity', icon: ScrollTextIcon, role: null },
 ] as const;
