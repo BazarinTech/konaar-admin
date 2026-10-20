@@ -21,7 +21,7 @@ const SOURCES: Record<string, string> = {
   credit_topup: 'Top-up',
   generation: 'Model usage',
   manual: 'Entered',
-  recurring: 'Monthly',
+  recurring: 'Scheduled',
 };
 
 export function LedgerTable({

@@ -17,6 +17,8 @@ export interface Plan {
   code: string;
   name: string;
   priceCents: number;
+  /** `null` when the plan is not offered yearly. */
+  yearlyPriceCents: number | null;
   cadence: string;
   monthlyAiCredits: number;
   monthlyCloudCredits: number;

@@ -99,11 +99,12 @@ export default async function RevenuePage({
 
       <Card className="mt-4">
         <CardHeader>
-          <CardTitle>Every month, on its own</CardTitle>
+          <CardTitle>Scheduled, on its own</CardTitle>
           <p className="text-muted-foreground text-xs">
-            Amounts that repeat — a server bill, a salary, a retainer. Each one
-            posts itself on its day, so the ledger stays whole without anyone
-            remembering to type it.
+            Amounts the ledger knows are coming — a monthly server bill, a
+            salary, a yearly renewal, a bill due in March and September, or a
+            one-off on a known date. Each posts itself when it is due, so the
+            ledger stays whole without anyone remembering to type it.
           </p>
         </CardHeader>
         <CardContent>

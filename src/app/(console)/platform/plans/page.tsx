@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowLeftIcon } from 'lucide-react';
+import { ArrowLeftIcon, GiftIcon, PercentIcon } from 'lucide-react';
 import { apiPage } from '@/lib/api';
 import { count, money } from '@/lib/format';
 import { PageHeader } from '@/components/page-header';
@@ -28,6 +28,18 @@ export default async function PlansPage() {
         title="Plans"
         description="Prices, included credits and what each plan advertises. A plan's code never changes — workspaces reference it."
       >
+        <Button variant="outline" size="sm" asChild>
+          <Link href="/platform/discounts">
+            <PercentIcon />
+            Discounts
+          </Link>
+        </Button>
+        <Button variant="outline" size="sm" asChild>
+          <Link href="/platform/offers">
+            <GiftIcon />
+            Offers
+          </Link>
+        </Button>
         <NewPlan />
       </PageHeader>
 
@@ -38,7 +50,11 @@ export default async function PlansPage() {
               <div>
                 <CardTitle className="text-base">{plan.name}</CardTitle>
                 <p className="text-muted-foreground mt-1 text-xs">
-                  {money(plan.priceCents / 100)} {plan.cadence} · code{' '}
+                  {money(plan.priceCents / 100)} {plan.cadence}
+                  {plan.yearlyPriceCents !== null
+                    ? ` · ${money(plan.yearlyPriceCents / 100)} yearly`
+                    : ''}{' '}
+                  · code{' '}
                   <code className="font-mono">{plan.code}</code>
                 </p>
                 <p className="text-muted-foreground mt-1 text-xs">

@@ -2,7 +2,7 @@
 
 import { revalidatePath } from 'next/cache';
 import { api, ApiError } from '@/lib/api';
-import type { LedgerLine } from './types';
+import type { Frequency, LedgerLine } from './types';
 
 export interface ActionResult {
   ok?: boolean;
@@ -72,7 +72,17 @@ export interface RecurringInput {
   dayOfMonth: number;
   startsOn?: string;
   endsOn?: string;
+  frequency: Frequency;
+  months?: number[];
 }
+
+/** The parts of a schedule that can change once it exists. */
+export type RecurringPatch = Partial<
+  Pick<
+    RecurringInput,
+    'category' | 'amount' | 'description' | 'dayOfMonth' | 'frequency' | 'months'
+  >
+> & { endsOn?: string | null };
 
 /**
  * Schedules money that repeats.
@@ -112,6 +122,36 @@ export async function createRecurring(
     ok: true,
     message: 'Scheduled. Anything already due has been posted.',
   };
+}
+
+/** Changes a schedule from its next period on; posted lines keep their amount. */
+export async function updateRecurring(
+  id: string,
+  patch: RecurringPatch,
+): Promise<ActionResult> {
+  if (patch.amount !== undefined && !(patch.amount > 0)) {
+    return { error: 'Enter an amount above zero.' };
+  }
+  try {
+    await api(`/admin/revenue/recurring/${id}`, {
+      method: 'POST',
+      body: JSON.stringify({
+        ...patch,
+        endsOn:
+          patch.endsOn === undefined
+            ? undefined
+            : patch.endsOn
+              ? new Date(`${patch.endsOn}T12:00:00Z`).toISOString()
+              : null,
+      }),
+    });
+  } catch (err) {
+    return {
+      error: err instanceof ApiError ? err.message : 'That did not go through.',
+    };
+  }
+  refresh();
+  return { ok: true, message: 'Updated. It applies from the next posting.' };
 }
 
 export async function setRecurringStatus(

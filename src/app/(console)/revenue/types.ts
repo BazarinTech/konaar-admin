@@ -38,6 +38,8 @@ export interface TopAccount {
   contribution: number;
 }
 
+export type Frequency = 'monthly' | 'quarterly' | 'yearly' | 'months' | 'once';
+
 export interface RecurringSchedule {
   id: string;
   kind: 'income' | 'expense';
@@ -45,6 +47,11 @@ export interface RecurringSchedule {
   amount: number;
   description: string;
   dayOfMonth: number;
+  frequency: Frequency;
+  /** For `months`: 1–12. */
+  months: number[];
+  /** "on the 15th of March and September", from the API. */
+  when: string;
   startsOn: string | null;
   endsOn: string | null;
   status: 'active' | 'paused';

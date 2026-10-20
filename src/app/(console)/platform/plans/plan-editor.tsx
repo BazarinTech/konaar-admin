@@ -21,6 +21,10 @@ import type { Plan } from '../types';
 export function PlanEditor({ plan }: { plan: Plan }) {
   const [name, setName] = useState(plan.name);
   const [price, setPrice] = useState(String(plan.priceCents / 100));
+  // Empty is "not sold yearly", the same convention the ceilings use.
+  const [yearly, setYearly] = useState(
+    plan.yearlyPriceCents === null ? '' : String(plan.yearlyPriceCents / 100),
+  );
   const [ai, setAi] = useState(String(plan.monthlyAiCredits));
   const [cloud, setCloud] = useState(String(plan.monthlyCloudCredits));
   const [features, setFeatures] = useState(plan.features.join('\n'));
@@ -38,6 +42,13 @@ export function PlanEditor({ plan }: { plan: Plan }) {
     const cents = Math.round(Number(price) * 100);
     if (Number.isFinite(cents) && cents !== plan.priceCents) {
       next.priceCents = cents;
+    }
+    const yearlyCents = yearly.trim() ? Math.round(Number(yearly) * 100) : null;
+    if (
+      (yearlyCents === null || Number.isFinite(yearlyCents)) &&
+      yearlyCents !== plan.yearlyPriceCents
+    ) {
+      next.yearlyPriceCents = yearlyCents;
     }
     if (Number(ai) !== plan.monthlyAiCredits) next.monthlyAiCredits = Number(ai);
     if (Number(cloud) !== plan.monthlyCloudCredits) {
@@ -75,6 +86,18 @@ export function PlanEditor({ plan }: { plan: Plan }) {
             onChange={(e) => setPrice(e.target.value)}
             className="tabular"
           />
+        </Field>
+        <Field label="Yearly price (USD)">
+          <Input
+            type="number"
+            min={0}
+            step="0.01"
+            value={yearly}
+            onChange={(e) => setYearly(e.target.value)}
+            placeholder="Not offered yearly"
+            className="tabular"
+          />
+          <YearlyHint monthly={Number(price)} yearly={yearly} />
         </Field>
         <Field label="AI credits / month">
           <Input
@@ -169,6 +192,20 @@ export function PlanEditor({ plan }: { plan: Plan }) {
         {dirty ? 'Save changes' : 'No changes'}
       </Button>
     </div>
+  );
+}
+
+/** "$16.58/mo · saves 17%", so the yearly figure is set with its effect in view. */
+function YearlyHint({ monthly, yearly }: { monthly: number; yearly: string }) {
+  const y = Number(yearly);
+  if (!yearly.trim() || !Number.isFinite(y) || !(monthly > 0)) return null;
+  const saving = Math.round((1 - y / (monthly * 12)) * 100);
+  return (
+    <span className="text-muted-foreground text-[11px] tabular">
+      ${(y / 12).toFixed(2)}/mo
+      {saving > 0 ? ` · saves ${saving}% against monthly` : ''}
+      {saving < 0 ? ` · costs ${-saving}% more than monthly` : ''}
+    </span>
   );
 }
 
