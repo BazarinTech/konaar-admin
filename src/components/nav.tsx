@@ -13,6 +13,7 @@ import {
   LayoutTemplateIcon,
   GiftIcon,
   ActivityIcon,
+  BrainCircuitIcon,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -30,6 +31,15 @@ export const NAV = [
     href: '/platform',
     label: 'Platform',
     icon: SlidersHorizontalIcon,
+    role: 'platform',
+  },
+  {
+    href: '/ai',
+    label: 'AI',
+    icon: BrainCircuitIcon,
+    // Which model does which work is the same kind of decision as what that
+    // work costs, so it sits with the area that owns pricing. A role of its
+    // own would mean nobody could reach it until someone granted it.
     role: 'platform',
   },
   {

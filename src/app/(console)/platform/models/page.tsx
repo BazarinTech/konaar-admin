@@ -100,8 +100,12 @@ export default async function ModelsPage() {
       </Card>
 
       <p className="text-muted-foreground mt-4 text-xs">
-        Which model plays which role comes from the API&apos;s environment. Prices
-        are the provider&apos;s published rates, held in the model registry.
+        Which model plays which role is set on the{' '}
+        <Link href="/ai/engine" className="underline underline-offset-4">
+          engine page
+        </Link>
+        , on top of the defaults in the API&apos;s environment. Prices are the
+        provider&apos;s published rates, held in the model registry.
       </p>
     </>
   );
