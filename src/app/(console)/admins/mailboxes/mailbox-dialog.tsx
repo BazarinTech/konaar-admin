@@ -148,7 +148,7 @@ export function MailboxDialog({
               value={signature}
               onChange={(e) => setSignature(e.target.value)}
               rows={3}
-              placeholder={'The Konaar team\nkonaar.com'}
+              placeholder={'The Konaar team\nkonaar.dev'}
               maxLength={1000}
             />
           </Field>
