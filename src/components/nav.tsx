@@ -15,6 +15,7 @@ import {
   ActivityIcon,
   BrainCircuitIcon,
   InboxIcon,
+  LifeBuoyIcon,
   MailIcon,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -38,6 +39,7 @@ export const NAV = [
     // says so.
     role: null,
   },
+  { href: '/support', label: 'Support', icon: LifeBuoyIcon, role: 'support' },
   { href: '/email', label: 'Email', icon: MailIcon, role: 'email' },
   {
     href: '/platform',

@@ -42,6 +42,7 @@ const AREAS: Record<string, string> = {
   resources: 'Resources',
   revenue: 'Revenue',
   email: 'Email',
+  support: 'Support',
 };
 
 export const metadata = { title: 'Administrators — Konaar Console' };
