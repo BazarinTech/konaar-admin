@@ -119,3 +119,53 @@
   }
 }
 
+
+/*
+ * What the email editor writes, shown the way a mail client will show it.
+ * Kept to the tags TipTap emits; the console has no typography plugin.
+ */
+@layer components {
+  .prose-email p {
+    margin: 0 0 0.6em;
+  }
+  .prose-email p:last-child {
+    margin-bottom: 0;
+  }
+  .prose-email h2 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin: 0.8em 0 0.4em;
+  }
+  .prose-email h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin: 0.8em 0 0.4em;
+  }
+  .prose-email ul {
+    list-style: disc;
+    padding-left: 1.3em;
+    margin: 0 0 0.6em;
+  }
+  .prose-email ol {
+    list-style: decimal;
+    padding-left: 1.3em;
+    margin: 0 0 0.6em;
+  }
+  .prose-email blockquote {
+    border-left: 3px solid var(--border);
+    padding-left: 0.8em;
+    color: var(--muted-foreground);
+    margin: 0 0 0.6em;
+  }
+  .prose-email a {
+    color: var(--primary);
+    text-decoration: underline;
+  }
+  .prose-email p.is-editor-empty:first-child::before {
+    content: attr(data-placeholder);
+    color: var(--muted-foreground);
+    float: left;
+    height: 0;
+    pointer-events: none;
+  }
+}

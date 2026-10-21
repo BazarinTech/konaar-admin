@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { SearchIcon } from 'lucide-react';
+import { MegaphoneIcon, SearchIcon } from 'lucide-react';
 import { apiPage } from '@/lib/api';
 import { count } from '@/lib/format';
 import { PageHeader } from '@/components/page-header';
@@ -64,7 +64,14 @@ export default async function UsersPage({
       <PageHeader
         title="Users"
         description={`${count(users.total ?? users.data.length)} accounts. What each one has paid, and what serving them cost.`}
-      />
+      >
+        <Button variant="outline" size="sm" asChild>
+          <Link href="/users/sources">
+            <MegaphoneIcon />
+            Lead sources
+          </Link>
+        </Button>
+      </PageHeader>
 
       <form
         action="/users"

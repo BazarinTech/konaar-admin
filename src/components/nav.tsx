@@ -14,6 +14,8 @@ import {
   GiftIcon,
   ActivityIcon,
   BrainCircuitIcon,
+  InboxIcon,
+  MailIcon,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -27,6 +29,16 @@ import { cn } from '@/lib/utils';
 export const NAV = [
   { href: '/', label: 'Dashboard', icon: LayoutDashboardIcon, role: null },
   { href: '/users', label: 'Users', icon: UsersIcon, role: 'users' },
+  {
+    href: '/inbox',
+    label: 'Inbox',
+    icon: InboxIcon,
+    // Every administrator: which mailboxes they can read is membership, set
+    // per mailbox, not an area. Someone in none sees an empty inbox that
+    // says so.
+    role: null,
+  },
+  { href: '/email', label: 'Email', icon: MailIcon, role: 'email' },
   {
     href: '/platform',
     label: 'Platform',

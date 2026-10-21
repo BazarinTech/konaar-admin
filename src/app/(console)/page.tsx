@@ -8,6 +8,8 @@ import {
   UsersIcon,
 } from 'lucide-react';
 import { apiPage } from '@/lib/api';
+import { currentAdmin } from '@/lib/session';
+import { LeadSources, type Acquisition } from './users/sources/lead-sources';
 import { count, money, percent, ago } from '@/lib/format';
 import { PageHeader } from '@/components/page-header';
 import { Stat } from '@/components/stat';
@@ -43,10 +45,15 @@ interface Activity {
 }
 
 export default async function DashboardPage() {
-  const [summary, growth, activity] = await Promise.all([
+  const admin = await currentAdmin();
+  const [summary, growth, activity, sources] = await Promise.all([
     apiPage<Summary>('/admin/dashboard'),
     apiPage<{ data: GrowthPoint[] }>('/admin/dashboard/growth?days=30'),
     apiPage<Activity>('/admin/activity?limit=8'),
+    // Only for those who hold the users area; anyone else would get a 404.
+    admin.roles.includes('users')
+      ? apiPage<Acquisition>('/admin/users/acquisition?days=30')
+      : Promise.resolve(null),
   ]);
 
   const { money: m } = summary;
@@ -165,6 +172,25 @@ export default async function DashboardPage() {
           </CardContent>
         </Card>
       </div>
+
+      {sources ? (
+        <Card className="mt-4">
+          <CardHeader className="flex-row items-center justify-between">
+            <div>
+              <CardTitle>Top lead sources</CardTitle>
+              <p className="text-muted-foreground text-xs">
+                Where the last 30 days&rsquo; sign-ups heard of Konaar.
+              </p>
+            </div>
+            <Button variant="ghost" size="sm" asChild>
+              <Link href="/users/sources">All</Link>
+            </Button>
+          </CardHeader>
+          <CardContent>
+            <LeadSources data={sources} compact />
+          </CardContent>
+        </Card>
+      ) : null}
 
       <Card className="mt-4">
         <CardHeader>

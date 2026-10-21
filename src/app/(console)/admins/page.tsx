@@ -1,4 +1,7 @@
+import Link from 'next/link';
+import { MailIcon } from 'lucide-react';
 import { apiPage } from '@/lib/api';
+import { Button } from '@/components/ui/button';
 import { currentAdmin } from '@/lib/session';
 import { ago, count, date } from '@/lib/format';
 import { PageHeader } from '@/components/page-header';
@@ -38,6 +41,7 @@ const AREAS: Record<string, string> = {
   platform: 'Platform',
   resources: 'Resources',
   revenue: 'Revenue',
+  email: 'Email',
 };
 
 export const metadata = { title: 'Administrators — Konaar Console' };
@@ -54,6 +58,12 @@ export default async function AdminsPage() {
         title="Administrators"
         description="Who can open this console, and which areas they see. An area they do not hold answers 404, not 403."
       >
+        <Button variant="outline" size="sm" asChild>
+          <Link href="/admins/mailboxes">
+            <MailIcon />
+            Mailboxes
+          </Link>
+        </Button>
         <NewAdmin roles={list.roles} areas={AREAS} />
       </PageHeader>
 
