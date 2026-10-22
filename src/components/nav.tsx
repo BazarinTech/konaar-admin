@@ -16,6 +16,7 @@ import {
   BrainCircuitIcon,
   InboxIcon,
   LifeBuoyIcon,
+  MegaphoneIcon,
   MailIcon,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -85,6 +86,14 @@ export const NAV = [
     icon: ActivityIcon,
     // What customers are told about outages is platform curation, the same
     // area that owns pricing and the templates queue.
+    role: 'platform',
+  },
+  {
+    href: '/changelog',
+    label: 'Changelog',
+    icon: MegaphoneIcon,
+    // What customers are told shipped sits with what they are told about
+    // outages and prices.
     role: 'platform',
   },
   {
