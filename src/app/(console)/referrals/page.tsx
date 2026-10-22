@@ -51,8 +51,8 @@ export default async function ReferralsPage() {
             <p className="font-medium">Payouts are not switched on</p>
             <p className="pt-1 text-muted-foreground">
               People can earn and request a payout, and those requests collect
-              here, but nothing can be sent until{' '}
-              <code className="font-mono text-xs">STRIPE_SECRET_KEY</code> is
+              here, but nothing can be sent to M-Pesa until{' '}
+              <code className="font-mono text-xs">PALPLUSS_API_KEY</code> is
               set on the API. Approving one now will fail and give the person
               their balance back.
             </p>

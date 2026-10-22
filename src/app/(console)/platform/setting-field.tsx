@@ -49,7 +49,7 @@ export function SettingField({ setting }: { setting: Setting }) {
         <Input
           id={setting.key}
           type="number"
-          step={setting.unit === '×' ? 0.1 : 1}
+          step={setting.unit === '×' ? 0.1 : setting.unit === 'KES' ? 0.01 : 1}
           min={setting.min}
           max={setting.max}
           value={value}

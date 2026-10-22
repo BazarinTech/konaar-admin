@@ -18,6 +18,7 @@ import {
   LifeBuoyIcon,
   MegaphoneIcon,
   MailIcon,
+  SmartphoneIcon,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -64,6 +65,13 @@ export const NAV = [
     role: 'resources',
   },
   { href: '/revenue', label: 'Revenue', icon: WalletIcon, role: 'revenue' },
+  {
+    href: '/payments',
+    label: 'Payments',
+    icon: SmartphoneIcon,
+    // Money arriving, and matching what arrived unclaimed: revenue's call.
+    role: 'revenue',
+  },
   {
     href: '/admins',
     label: 'Administrators',
