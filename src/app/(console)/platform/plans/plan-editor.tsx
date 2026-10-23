@@ -34,6 +34,7 @@ export function PlanEditor({ plan }: { plan: Plan }) {
   const [services, setServices] = useState(limitText(plan.maxServices));
   const [spaces, setSpaces] = useState(limitText(plan.maxWorkspaces));
   const [isPublic, setIsPublic] = useState(plan.isPublic);
+  const [premium, setPremium] = useState(plan.premiumModels);
   const [pending, start] = useTransition();
 
   const patch = () => {
@@ -60,6 +61,7 @@ export function PlanEditor({ plan }: { plan: Plan }) {
       .filter(Boolean);
     if (list.join('\n') !== plan.features.join('\n')) next.features = list;
     if (isPublic !== plan.isPublic) next.isPublic = isPublic;
+    if (premium !== plan.premiumModels) next.premiumModels = premium;
     if (limitValue(projects) !== plan.maxProjects)
       next.maxProjects = limitValue(projects);
     if (limitValue(services) !== plan.maxServices)
@@ -166,6 +168,16 @@ export function PlanEditor({ plan }: { plan: Plan }) {
           className="border-input focus-visible:border-ring focus-visible:ring-ring/50 w-full rounded-md border bg-transparent px-3 py-2 text-sm shadow-xs outline-none focus-visible:ring-[3px]"
         />
       </Field>
+
+      <Label className="items-start text-xs font-normal">
+        <Switch checked={premium} onCheckedChange={setPremium} />
+        <span>
+          Premium models in the builder
+          <span className="text-muted-foreground block">
+            The Premium build quality, and escalation to the premium model when work keeps failing.
+          </span>
+        </span>
+      </Label>
 
       <div className="flex items-center justify-between gap-3">
         <Label className="text-xs font-normal">

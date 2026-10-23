@@ -58,6 +58,7 @@ export function NewPlan() {
   const [services, setServices] = useState('');
   const [spaces, setSpaces] = useState('');
   const [isPublic, setIsPublic] = useState(false);
+  const [premium, setPremium] = useState(true);
   const [pending, start] = useTransition();
 
   // The code follows the name until someone edits it themselves — after that it
@@ -215,6 +216,11 @@ export function NewPlan() {
           </div>
 
           <Label className="text-sm font-normal">
+            <Switch checked={premium} onCheckedChange={setPremium} />
+            Premium models in the builder
+          </Label>
+
+          <Label className="text-sm font-normal">
             <Switch checked={isPublic} onCheckedChange={setIsPublic} />
             Show on the pricing page straight away
           </Label>
@@ -244,6 +250,7 @@ export function NewPlan() {
                     .map((line) => line.trim())
                     .filter(Boolean),
                   isPublic,
+                  premiumModels: premium,
                   maxProjects: ceiling(projects),
                   maxServices: ceiling(services),
                   maxWorkspaces: ceiling(spaces),

@@ -64,6 +64,7 @@ export interface NewPlanInput {
   maxProjects: number | null;
   maxServices: number | null;
   maxWorkspaces: number | null;
+  premiumModels: boolean;
 }
 
 export async function createPlan(input: NewPlanInput): Promise<ActionResult> {

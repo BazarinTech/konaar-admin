@@ -30,6 +30,8 @@ export interface Plan {
   maxProjects: number | null;
   maxServices: number | null;
   maxWorkspaces: number | null;
+  /** Builds on this plan may use the premium model. */
+  premiumModels: boolean;
   workspaces: number;
   subscriptions: number;
 }

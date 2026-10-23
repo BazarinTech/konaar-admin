@@ -68,6 +68,9 @@ export default async function PlansPage() {
                   <Badge variant={plan.isPublic ? 'success' : 'outline'}>
                     {plan.isPublic ? 'public' : 'hidden'}
                   </Badge>
+                  {plan.premiumModels ? (
+                    <Badge variant="outline">premium models</Badge>
+                  ) : null}
                   {plan.workspaces === 0 && plan.subscriptions === 0 ? (
                     <DeletePlan code={plan.code} name={plan.name} />
                   ) : null}
