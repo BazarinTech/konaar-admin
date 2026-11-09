@@ -18,6 +18,7 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { openIncident } from './actions';
 import type { StatusComponentRecord } from './page';
+import { Spinner } from '@/components/ui/spinner';
 
 const IMPACTS = [
   { value: 'minor', label: 'Minor — degraded, still usable' },
@@ -174,7 +175,12 @@ export function IncidentForm({
             Cancel
           </Button>
           <Button disabled={pending || !ready} onClick={post}>
-            {pending ? 'Posting…' : 'Post it'}
+            {pending ? (
+              <>
+                <Spinner />
+                Posting…
+              </>
+            ) : 'Post it'}
           </Button>
         </div>
       </CardContent>

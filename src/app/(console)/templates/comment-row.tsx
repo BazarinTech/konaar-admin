@@ -9,6 +9,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { ago } from '@/lib/format';
 import { hideComment, showComment } from './actions';
 import type { CommentRecord } from './page';
+import { Spinner } from '@/components/ui/spinner';
 
 /**
  * One comment, and the one decision that applies to it.
@@ -62,7 +63,12 @@ export function CommentRow({ comment }: { comment: CommentRecord }) {
 
         {comment.hidden ? (
           <Button size="sm" variant="outline" disabled={pending} onClick={restore}>
-            {pending ? 'Restoring…' : 'Put it back'}
+            {pending ? (
+              <>
+                <Spinner />
+                Restoring…
+              </>
+            ) : 'Put it back'}
           </Button>
         ) : (
           <Button
@@ -104,7 +110,12 @@ export function CommentRow({ comment }: { comment: CommentRecord }) {
               disabled={pending || reason.trim().length < 5}
               onClick={hide}
             >
-              {pending ? 'Hiding…' : 'Hide it'}
+              {pending ? (
+                <>
+                  <Spinner />
+                  Hiding…
+                </>
+              ) : 'Hide it'}
             </Button>
           </div>
         </div>

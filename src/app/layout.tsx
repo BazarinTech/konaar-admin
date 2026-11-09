@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { Toaster } from 'sonner';
+
+import { Spinner } from '@/components/ui/spinner';
 import './globals.css';
 
 const inter = Inter({
@@ -27,7 +29,15 @@ export default function RootLayout({
     <html lang="en" className={`dark ${inter.variable}`}>
       <body className="bg-background text-foreground antialiased">
         {children}
-        <Toaster position="bottom-right" theme="dark" />
+        {/* Top right, in Sonner's rich colours with a close button, as in
+            the Konaar app; loading toasts use the shared spinner. */}
+        <Toaster
+          position="top-right"
+          theme="dark"
+          richColors
+          closeButton
+          icons={{ loading: <Spinner className="size-4" /> }}
+        />
       </body>
     </html>
   );

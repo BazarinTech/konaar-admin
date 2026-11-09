@@ -6,6 +6,7 @@ import { Trash2Icon } from 'lucide-react';
 import { deleteSkill, updateSkill } from '../actions';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
+import { Spinner } from '@/components/ui/spinner';
 
 /** The on/off switch for one skill. Saves on change — there is nothing to type. */
 export function SkillToggle({
@@ -73,7 +74,12 @@ export function SkillDelete({ id, name }: { id: string; name: string }) {
           })
         }
       >
-        {pending ? 'Deleting…' : 'Delete'}
+        {pending ? (
+          <>
+            <Spinner />
+            Deleting…
+          </>
+        ) : 'Delete'}
       </Button>
       <Button size="sm" variant="ghost" onClick={() => setArmed(false)}>
         Keep

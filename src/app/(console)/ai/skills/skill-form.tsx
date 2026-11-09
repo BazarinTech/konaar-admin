@@ -25,6 +25,7 @@ import {
   type Skill,
   type SkillDraft,
 } from '../types';
+import { Spinner } from '@/components/ui/spinner';
 
 const EMPTY: SkillDraft = {
   slug: '',
@@ -339,7 +340,12 @@ export function SkillForm({
             onClick={submit}
             disabled={pending || problems.length > 0 || chars > 8000}
           >
-            {pending ? 'Saving…' : editing ? 'Save changes' : 'Create skill'}
+            {pending ? (
+              <>
+                <Spinner />
+                Saving…
+              </>
+            ) : editing ? 'Save changes' : 'Create skill'}
           </Button>
         </DialogFooter>
       </DialogContent>

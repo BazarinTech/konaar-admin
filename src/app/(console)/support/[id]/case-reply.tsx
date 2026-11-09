@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/select';
 import { replyToCase } from '../actions';
 import { STATUS_LABEL, type CaseStatus } from '../types';
+import { Spinner } from '@/components/ui/spinner';
 
 /**
  * The reply box. A public reply is emailed to the customer and, unless told
@@ -83,7 +84,12 @@ export function CaseReply({ id, status, customer }: { id: string; status: CaseSt
           </div>
         ) : null}
         <Button size="sm" onClick={send} disabled={pending || !body.trim()}>
-          {pending ? 'Sending…' : note ? 'Add note' : 'Send reply'}
+          {pending ? (
+            <>
+              <Spinner />
+              Sending…
+            </>
+          ) : note ? 'Add note' : 'Send reply'}
         </Button>
       </div>
       {status === 'closed' ? (

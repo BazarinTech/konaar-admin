@@ -30,6 +30,7 @@ import {
 } from '@/components/ui/select';
 import { deleteEntry, publishEntry, saveEntry, unpublishEntry } from './actions';
 import { KIND_LABEL, kindVariant, type ChangelogEntry, type ChangelogKind, type ChangelogMeta } from './types';
+import { Spinner } from '@/components/ui/spinner';
 
 /** `2026-10-22` for a date input, from an ISO timestamp. */
 const dayOf = (iso: string | null) => (iso ? iso.slice(0, 10) : '');
@@ -300,7 +301,12 @@ export function EntryEditor({
               Cancel
             </Button>
             <Button onClick={onPublish} disabled={pending}>
-              {pending ? 'Publishing…' : announce ? 'Publish and email' : 'Publish'}
+              {pending ? (
+                <>
+                  <Spinner />
+                  Publishing…
+                </>
+              ) : announce ? 'Publish and email' : 'Publish'}
             </Button>
           </DialogFooter>
         </DialogContent>

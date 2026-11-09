@@ -10,6 +10,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { ago, bytes } from '@/lib/format';
 import { reviewTemplate } from './actions';
 import type { TemplateRecord } from './page';
+import { Spinner } from '@/components/ui/spinner';
 
 /**
  * One submission, with everything needed to judge it on the card.
@@ -127,7 +128,12 @@ export function ReviewCard({ template }: { template: TemplateRecord }) {
                 disabled={pending || reason.trim().length < 10}
                 onClick={() => decide('reject')}
               >
-                {pending ? 'Rejecting…' : 'Reject'}
+                {pending ? (
+                  <>
+                    <Spinner />
+                    Rejecting…
+                  </>
+                ) : 'Reject'}
               </Button>
             </>
           ) : (
@@ -140,7 +146,12 @@ export function ReviewCard({ template }: { template: TemplateRecord }) {
                 Reject
               </Button>
               <Button disabled={pending} onClick={() => decide('approve')}>
-                {pending ? 'Publishing…' : 'Publish'}
+                {pending ? (
+                  <>
+                    <Spinner />
+                    Publishing…
+                  </>
+                ) : 'Publish'}
               </Button>
             </>
           )}

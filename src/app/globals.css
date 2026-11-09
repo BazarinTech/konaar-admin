@@ -169,3 +169,8 @@
     pointer-events: none;
   }
 }
+
+/* Sonner sets its own system font stack; toasts speak in the console's. */
+[data-sonner-toaster] {
+  font-family: var(--font-sans);
+}

@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
 import { OPERATION_LABELS, SITE_TYPE_LABELS, type SkillPreview } from '../types';
+import { Spinner } from '@/components/ui/spinner';
 
 const ANY = '__unknown__';
 
@@ -101,7 +102,12 @@ export function SkillPreviewPanel({
       <div>
         <Button onClick={run} disabled={pending}>
           <FlaskConicalIcon />
-          {pending ? 'Checking…' : 'Show what the build receives'}
+          {pending ? (
+            <>
+              <Spinner />
+              Checking…
+            </>
+          ) : 'Show what the build receives'}
         </Button>
       </div>
 

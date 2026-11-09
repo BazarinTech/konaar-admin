@@ -28,6 +28,7 @@ import { RichEditor } from '@/components/email/rich-editor';
 import { HtmlFrame } from '@/components/email/html-frame';
 import { countAudience, previewBroadcast, sendCampaign } from '../actions';
 import { AUDIENCE_LABEL, type Audience, type AudienceStatus, type MyMailbox } from '../types';
+import { Spinner } from '@/components/ui/spinner';
 
 const PLATFORM = '__platform__';
 const ANY_PLAN = '__any__';
@@ -263,7 +264,12 @@ export function CampaignComposer({
               Keep editing
             </Button>
             <Button onClick={send} disabled={pending}>
-              {pending ? 'Starting…' : `Send to ${count(reach?.recipients ?? 0)}`}
+              {pending ? (
+                <>
+                  <Spinner />
+                  Starting…
+                </>
+              ) : `Send to ${count(reach?.recipients ?? 0)}`}
             </Button>
           </DialogFooter>
         </DialogContent>

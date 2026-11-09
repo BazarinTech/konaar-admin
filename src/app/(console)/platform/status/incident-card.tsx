@@ -18,6 +18,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { ago } from '@/lib/format';
 import { deleteIncident, postUpdate } from './actions';
 import type { IncidentRecord } from './page';
+import { Spinner } from '@/components/ui/spinner';
 
 const NEXT = [
   { value: 'investigating', label: 'Investigating' },
@@ -154,7 +155,12 @@ export function IncidentCard({ incident }: { incident: IncidentRecord }) {
                 disabled={pending || body.trim().length < 5}
                 onClick={send}
               >
-                {pending ? 'Posting…' : 'Post'}
+                {pending ? (
+                  <>
+                    <Spinner />
+                    Posting…
+                  </>
+                ) : 'Post'}
               </Button>
             </div>
           </div>

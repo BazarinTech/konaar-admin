@@ -33,6 +33,7 @@ import {
 } from '../rule-fields';
 import type { Discount, Scope } from '../pricing-types';
 import type { Plan } from '../types';
+import { Spinner } from '@/components/ui/spinner';
 
 /**
  * Creating or changing a discount. One form for both, so an edit can never
@@ -215,7 +216,12 @@ export function DiscountDialog({
 
         <DialogFooter>
           <Button disabled={pending || name.trim().length < 2} onClick={submit}>
-            {pending ? 'Saving…' : discount ? 'Save changes' : 'Create discount'}
+            {pending ? (
+              <>
+                <Spinner />
+                Saving…
+              </>
+            ) : discount ? 'Save changes' : 'Create discount'}
           </Button>
         </DialogFooter>
       </DialogContent>

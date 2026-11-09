@@ -16,6 +16,7 @@ import {
 } from '@/components/ui/select';
 import { createComponent } from './actions';
 import type { StatusGroup } from './page';
+import { Spinner } from '@/components/ui/spinner';
 
 /** Adding something for customers to watch. It appears on the page at once. */
 export function ComponentForm({ groups }: { groups: StatusGroup[] }) {
@@ -79,7 +80,12 @@ export function ComponentForm({ groups }: { groups: StatusGroup[] }) {
         </Select>
 
         <Button disabled={pending || name.trim().length === 0} onClick={add}>
-          {pending ? 'Adding…' : 'Add service'}
+          {pending ? (
+            <>
+              <Spinner />
+              Adding…
+            </>
+          ) : 'Add service'}
         </Button>
       </CardContent>
     </Card>

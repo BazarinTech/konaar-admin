@@ -7,6 +7,7 @@ import { ShieldCheckIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { setTemplatePublisher } from './actions';
+import { Spinner } from '@/components/ui/spinner';
 
 /**
  * Letting someone publish templates, or stopping them.
@@ -83,7 +84,12 @@ export function PublisherToggle({
               disabled={pending || note.trim().length < 5}
               onClick={apply}
             >
-              {pending ? 'Saving…' : verified ? 'Turn off' : 'Allow'}
+              {pending ? (
+                <>
+                  <Spinner />
+                  Saving…
+                </>
+              ) : verified ? 'Turn off' : 'Allow'}
             </Button>
           </div>
         </div>

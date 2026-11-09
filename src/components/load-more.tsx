@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, useTransition } from 'react';
-import { LoaderCircleIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Spinner } from '@/components/ui/spinner';
 
 export interface Cursor {
   nextCursor: string | null;
@@ -82,7 +82,7 @@ export function LoadMoreButton({
         >
           {pending ? (
             <>
-              <LoaderCircleIcon className="animate-spin" />
+              <Spinner />
               Loading
             </>
           ) : (

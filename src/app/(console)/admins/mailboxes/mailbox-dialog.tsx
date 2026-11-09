@@ -26,6 +26,7 @@ import {
 } from '@/components/ui/select';
 import { saveMailbox } from '../../email/actions';
 import type { ManagedMailbox } from '../../email/types';
+import { Spinner } from '@/components/ui/spinner';
 
 interface Person {
   id: string;
@@ -198,7 +199,12 @@ export function MailboxDialog({
             onClick={submit}
             disabled={pending || displayName.trim().length < 1 || (!mailbox && local.trim().length < 1)}
           >
-            {pending ? 'Saving…' : mailbox ? 'Save changes' : 'Create mailbox'}
+            {pending ? (
+              <>
+                <Spinner />
+                Saving…
+              </>
+            ) : mailbox ? 'Save changes' : 'Create mailbox'}
           </Button>
         </DialogFooter>
       </DialogContent>

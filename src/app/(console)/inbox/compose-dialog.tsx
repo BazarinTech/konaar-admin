@@ -19,6 +19,7 @@ import { RichEditor } from '@/components/email/rich-editor';
 import { composeEmail } from '../email/actions';
 import type { MyMailbox } from '../email/types';
 import { parseAddresses } from './addresses';
+import { Spinner } from '@/components/ui/spinner';
 
 /** A new conversation, started from a shared mailbox. */
 export function ComposeDialog({ mailbox }: { mailbox: MyMailbox }) {
@@ -85,7 +86,12 @@ export function ComposeDialog({ mailbox }: { mailbox: MyMailbox }) {
           <span className="text-muted-foreground mr-auto hidden self-center text-[11px] sm:inline">⌘/Ctrl + Enter sends</span>
           <Button onClick={send} disabled={pending || !to.trim() || !subject.trim() || !body}>
             <SendIcon />
-            {pending ? 'Sending…' : 'Send'}
+            {pending ? (
+              <>
+                <Spinner />
+                Sending…
+              </>
+            ) : 'Send'}
           </Button>
         </DialogFooter>
       </DialogContent>

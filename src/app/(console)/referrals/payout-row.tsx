@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { ago } from '@/lib/format';
 import { approvePayout, rejectPayout } from './actions';
 import type { PayoutRecord } from './page';
+import { Spinner } from '@/components/ui/spinner';
 
 /**
  * One request, and the two things that can happen to it.
@@ -71,9 +72,12 @@ export function PayoutRow({ payout }: { payout: PayoutRecord }) {
                     : setConfirming(true)
                 }
               >
-                {pending
-                  ? 'Sending…'
-                  : confirming
+                {pending ? (
+                  <>
+                    <Spinner />
+                    Sending…
+                  </>
+                ) : confirming
                     ? 'Yes, send it'
                     : 'Approve'}
               </Button>

@@ -15,6 +15,7 @@ import {
 import { dateTime } from '@/lib/format';
 import { assignPayment, dismissPayment, matchPayment } from './actions';
 import { kes, type UnclaimedPayment } from './types';
+import { Spinner } from '@/components/ui/spinner';
 
 /**
  * One M-Pesa payment nobody's checkout claimed — a customer who closed the
@@ -107,7 +108,12 @@ export function UnclaimedRow({ tx }: { tx: UnclaimedPayment }) {
           </div>
           <div className="flex gap-2">
             <Button type="submit" size="sm" disabled={pending || !workspaceId.trim()}>
-              {pending ? 'Crediting…' : 'Credit'}
+              {pending ? (
+                <>
+                  <Spinner />
+                  Crediting…
+                </>
+              ) : 'Credit'}
             </Button>
             <Button type="button" size="sm" variant="ghost" onClick={() => setMode('idle')}>
               Cancel
@@ -138,7 +144,12 @@ export function UnclaimedRow({ tx }: { tx: UnclaimedPayment }) {
           </div>
           <div className="flex gap-2">
             <Button type="submit" size="sm" disabled={pending || !paymentId.trim()}>
-              {pending ? 'Matching…' : 'Match'}
+              {pending ? (
+                <>
+                  <Spinner />
+                  Matching…
+                </>
+              ) : 'Match'}
             </Button>
             <Button type="button" size="sm" variant="ghost" onClick={() => setMode('idle')}>
               Cancel

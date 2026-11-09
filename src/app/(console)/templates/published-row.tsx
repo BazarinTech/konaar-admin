@@ -8,6 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { ago } from '@/lib/format';
 import { featureTemplate, takeDownTemplate } from './actions';
 import type { TemplateRecord } from './page';
+import { Spinner } from '@/components/ui/spinner';
 
 /** One live template, and the one action that applies to it. */
 export function PublishedRow({
@@ -80,9 +81,12 @@ export function PublishedRow({
                 : `Featured at position ${template.featuredRank}`
             }
           >
-            {pending
-              ? '…'
-              : template.featuredRank === null
+            {pending ? (
+              <>
+                <Spinner />
+                …
+              </>
+            ) : template.featuredRank === null
                 ? 'Feature'
                 : `Featured #${template.featuredRank}`}
           </Button>
@@ -116,7 +120,12 @@ export function PublishedRow({
               disabled={pending || reason.trim().length < 10}
               onClick={takeDown}
             >
-              {pending ? 'Removing…' : 'Remove'}
+              {pending ? (
+                <>
+                  <Spinner />
+                  Removing…
+                </>
+              ) : 'Remove'}
             </Button>
           </div>
         </div>

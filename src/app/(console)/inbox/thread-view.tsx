@@ -28,6 +28,7 @@ import {
 } from '../email/actions';
 import { statusVariant, type MyMailbox, type Thread, type ThreadMessage } from '../email/types';
 import { parseAddresses } from './addresses';
+import { Spinner } from '@/components/ui/spinner';
 
 /** One conversation: every message in order, and the reply box under them. */
 export function ThreadView({
@@ -175,7 +176,12 @@ export function ThreadView({
               </span>
               <Button size="sm" onClick={send} disabled={pending || !reply} className="ml-auto">
                 <SendIcon />
-                {pending ? 'Sending…' : 'Send reply'}
+                {pending ? (
+                  <>
+                    <Spinner />
+                    Sending…
+                  </>
+                ) : 'Send reply'}
               </Button>
             </div>
           </div>

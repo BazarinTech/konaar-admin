@@ -34,6 +34,7 @@ import {
 } from '../rule-fields';
 import { PERK_LABEL, type Offer, type Perk, type Scope } from '../pricing-types';
 import type { Plan } from '../types';
+import { Spinner } from '@/components/ui/spinner';
 
 /** "Subscribe to Pro, get…" — creating or changing one. */
 export function OfferDialog({ plans, offer }: { plans: Plan[]; offer?: Offer }) {
@@ -174,7 +175,12 @@ export function OfferDialog({ plans, offer }: { plans: Plan[]; offer?: Offer }) 
 
         <DialogFooter>
           <Button disabled={pending || name.trim().length < 2 || !(Number(value) > 0)} onClick={submit}>
-            {pending ? 'Saving…' : offer ? 'Save changes' : 'Create offer'}
+            {pending ? (
+              <>
+                <Spinner />
+                Saving…
+              </>
+            ) : offer ? 'Save changes' : 'Create offer'}
           </Button>
         </DialogFooter>
       </DialogContent>
