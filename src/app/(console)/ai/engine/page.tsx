@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { BookOpenIcon } from 'lucide-react';
+import { BookOpenIcon, ScanEyeIcon } from 'lucide-react';
 import { apiPage } from '@/lib/api';
 import { ago, count } from '@/lib/format';
 import { PageHeader } from '@/components/page-header';
@@ -47,6 +47,12 @@ export default async function EnginePage() {
         title="Engine"
         description="Which model does which work, how hard it thinks and how long it may run. The environment sets the defaults; changes here sit on top, take effect within ten seconds and survive deploys."
       >
+        <Button variant="outline" size="sm" asChild>
+          <Link href="/ai/reviews">
+            <ScanEyeIcon />
+            Design reviews
+          </Link>
+        </Button>
         <Button variant="outline" size="sm" asChild>
           <Link href="/ai/skills">
             <BookOpenIcon />
