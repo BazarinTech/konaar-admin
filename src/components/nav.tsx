@@ -16,6 +16,7 @@ import {
   BrainCircuitIcon,
   InboxIcon,
   LifeBuoyIcon,
+  MessageSquareHeartIcon,
   MegaphoneIcon,
   MailIcon,
   SmartphoneIcon,
@@ -42,6 +43,13 @@ export const NAV = [
     role: null,
   },
   { href: '/support', label: 'Support', icon: LifeBuoyIcon, role: 'support' },
+  {
+    href: '/feedback',
+    label: 'Feedback',
+    icon: MessageSquareHeartIcon,
+    // What customers think of the product reaches whoever answers them.
+    role: 'support',
+  },
   { href: '/email', label: 'Email', icon: MailIcon, role: 'email' },
   {
     href: '/platform',
