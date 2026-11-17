@@ -103,6 +103,7 @@ export const SITE_TYPE_LABELS: Record<string, string> = {
   marketing: 'Marketing',
   'saas-app': 'SaaS app',
   dashboard: 'Dashboard',
+  app: 'App',
   ecommerce: 'Ecommerce',
   portfolio: 'Portfolio',
   blog: 'Blog',
